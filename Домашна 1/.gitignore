@@ -1,0 +1,8 @@
+.venv/
+.DS_Store
+data/
+.env
+coingecko_json_data/
+**/__pycache__/**
+*.pyc
+.idea/
