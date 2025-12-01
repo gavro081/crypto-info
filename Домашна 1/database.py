@@ -16,10 +16,15 @@ def get_engine():
     connection_string = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
     return create_engine(connection_string)
 
-def save_df_to_db(df: pd.DataFrame, table_name: str, replace: bool = True):
+def save_df_to_db(df: pd.DataFrame, table_name: str, replace: bool = True, add_id: bool = True):
     engine = get_engine()
     try:
         print(f"Saving {len(df)} rows to table '{table_name}'...")
+        
+        # add auto-incrementing ID column if requested
+        if add_id and 'id' not in df.columns:
+            df = df.copy()
+            df.insert(0, 'id', range(1, len(df) + 1))
         
         # use postgres COPY for large datasets (> 700k rows)
         if len(df) > 700000:

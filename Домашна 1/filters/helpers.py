@@ -90,7 +90,7 @@ def download_one(coin: Dict, period: Literal["max", "1m"]) -> pd.DataFrame:
                 df = df.drop_duplicates(subset=["date"])
                 df = df.sort_values("date").dropna(subset=existing_price_cols).reset_index(drop=True)
                 
-                df["date"] = df["date"].astype(str)
+                df["date"] = pd.to_datetime(df["date"]).dt.date
 
                 return df
 

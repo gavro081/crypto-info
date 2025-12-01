@@ -62,6 +62,7 @@ class Filter1(Filter):
                         continue
                     
                     name = cols[1].text.strip()
+                    market_cap = self._parse_volume(cols[6].text.strip())
                     
                     # Extract 24h volume (cols[8]) - handle B, M, K suffixes
                     volume_text = cols[8].text.strip()
@@ -88,6 +89,10 @@ class Filter1(Filter):
                     extracted.append({
                         "symbol": symbol,
                         "name": name,
+                        "change_52w": change_52w,
+                        "circulating_supply": circ_supply,
+                        "volume": volume,
+                        "market_cap": market_cap,
                     })
                     
                 except (ValueError, IndexError, AttributeError) as e:
